@@ -8,8 +8,8 @@
 
 ## 使い方
 \`\`\`bash
-python3 todo_dict.py   # dict/list版
-python3 todo_class.py  # class版
+python3 src/todo_dict.py   # dict/list版
+python3 src/todo_class.py  # class版
 \`\`\`
 
 ## dict/list版 vs class版
