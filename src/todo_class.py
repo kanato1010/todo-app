@@ -1,20 +1,21 @@
 import json
 import time  #time.sleep使うため, エラー処理exceptのみで使用
+from typing import List  #型ヒントでList使うためにtypingっていうモジュールから導入
 
 class TodoItem:
-    def __init__(self, task, done=False):
+    def __init__(self, task: str, done: bool = False) -> None:
         self.task = task
         self.done = done
-    def toggle(self):  #完了と未完了を取り替え
+    def toggle(self) -> None:  #完了と未完了を取り替え
         self.done = not self.done
-    def to_dict(self):
+    def to_dict(self) -> dict:
         return {"task" : self.task, "done" : self.done}
     @classmethod
-    def from_dict(cls, d):     # JSONから読み込んだdictをインスタンスに変換
+    def from_dict(cls, d: dict) -> "TodoItem":     # JSONから読み込んだdictをインスタンスに変換
         return cls(d["task"], d["done"])
 
 try:
-    todos = []
+    todos: List["TodoItem"] = []
     with open("todos.json", "r") as f:
         loaded_todos = json.load(f)
         for x in loaded_todos:
@@ -23,7 +24,7 @@ try:
 except FileNotFoundError:
     todos = []
 
-def display():
+def display() -> int:
 
     print("")
     print("↓現在のリスト")
@@ -40,10 +41,10 @@ def display():
     choice = int(input("数字を入力 : "))
     return choice
 
-def todo_add(new_task):
+def todo_add(new_task: str) -> None:
     todos.append(TodoItem(new_task))
 
-def todo_remove(remove_number):
+def todo_remove(remove_number: int) -> None:
     todos.pop(remove_number-1)
 
 #main----------------------------------
