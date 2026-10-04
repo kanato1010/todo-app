@@ -70,9 +70,13 @@ def todo_add(new_task: str) -> None:
 def todo_remove(remove_number: int) -> None:
     todos.pop(remove_number-1)
 
-def get_len(d: "TodoItem"):
-    p = d.priority.value if d.priority else ""
+def priority_order(c: "TodoItem"):
+    p = c.priority.value if c.priority else ""
     return p.count("★")
+
+def deadline_order(c: "TodoItem"):
+    d = c.deadline if c.deadline else date.max
+    return d
 
 #main----------------------------------
 while True:
@@ -113,7 +117,7 @@ while True:
             else:
                 raise ValueError
             todos[number-1].priority = priority
-            todos.sort(key=get_len, reverse=True)  #優先度順に並び替え
+            todos.sort(key=priority_order, reverse=True)  #優先度順に並び替え
 
         elif choice == 5:  #締め切りの設定
             number = int(input("締切を追加するタスクを選択してください : "))
@@ -124,6 +128,8 @@ while True:
             month = int(input("月 : "))
             day = int(input("日 : "))
             todos[number-1].deadline = date(year, month, day)
+            todos[number-1].priority = Priority.HIGH
+            todos.sort(key=deadline_order)
 
         with open("todos.json", "w") as f:
             saved_todos = []
